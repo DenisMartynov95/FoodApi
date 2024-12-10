@@ -1,5 +1,6 @@
 package ReceiptService.PositiveTests;
 
+import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root;
 import ReceiptService.ReceiptBaseSettings;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
@@ -40,12 +41,17 @@ public class PositiveTests {
             if (response.statusCode() == 200) {
                 System.out.println("Статус код 200");
             } else {
-                System.out.println("Статус код не 200! Тест провален" + response.statusCode());
+                System.out.println("Статус код не 200! Тест провален:  " + response.statusCode());
             }
-
-
-
-
+            Root body = response.then().extract().body().as(Root.class);
+            if (body.toString() == null) {
+                System.out.println("Приходящий ответ пуст!");
+                System.out.println(body.getClass());
+            } else {
+                System.out.println("Приходящий ответ содержит следующее число результатов: ");
+                System.out.println(body.getTotalResults());
+                System.out.println(" ");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
