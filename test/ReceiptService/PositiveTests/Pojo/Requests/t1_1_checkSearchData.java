@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class t1_1_checkSearch {
+public class t1_1_checkSearchData {
 
     // Здесь создаю тестовые данные, мог сделать в тестовом методе, но вынесу сюда для уменьшения полотна когда в тестовом окне
     public static final String QUERY = "query";

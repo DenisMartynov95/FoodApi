@@ -20,5 +20,9 @@ public class ReceiptBaseSettings {
                 .header("x-api-key",getApiKey());
     }
 
+    public RequestSpecification getSpec() {
+        return spec;
+    }
+
 
 }
