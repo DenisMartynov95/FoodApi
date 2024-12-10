@@ -13,6 +13,8 @@ import org.junit.runners.Parameterized;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PositiveTests {
 
@@ -34,24 +36,20 @@ public class PositiveTests {
 
             Response response = given()
                     .spec(receiptBaseSettings.getSpec())
-                    .params(params)
+                    .queryParams(params)
                     .and()
+                    .log().all()
                     .get("recipes/complexSearch");
             response.then().assertThat().statusCode(200);
-            if (response.statusCode() == 200) {
-                System.out.println("Статус код 200");
-            } else {
-                System.out.println("Статус код не 200! Тест провален:  " + response.statusCode());
-            }
+            // Чек статус кода
+            assertEquals("Статус-код должен быть 200",200, response.statusCode());
+
+            // Парсинг тела и чек, что тело не пустое
             Root body = response.then().extract().body().as(Root.class);
-            if (body.toString() == null) {
-                System.out.println("Приходящий ответ пуст!");
-                System.out.println(body.getClass());
-            } else {
-                System.out.println("Приходящий ответ содержит следующее число результатов: ");
-                System.out.println(body.getTotalResults());
-                System.out.println(" ");
-            }
+            assertNotNull("Ответ пуст!",body.toString());
+
+            System.out.println("Количество результатов запроса: " + body.getTotalResults());
+            System.out.println(" ");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -16,7 +16,7 @@ public class ReceiptBaseSettings {
     public ReceiptBaseSettings() {
         spec = RestAssured.given()
                 .baseUri("https://api.spoonacular.com/")
-                .contentType("Content-Type: application/json")
+                .contentType("application/json")
                 .header("x-api-key",getApiKey());
     }
 
