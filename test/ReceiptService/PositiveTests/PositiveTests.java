@@ -3,6 +3,7 @@ package ReceiptService.PositiveTests;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Result;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root;
 import ReceiptService.ReceiptBaseSettings;
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
@@ -58,6 +59,7 @@ public class PositiveTests {
     @Step
     @Test
     @DisplayName("Работоспособность ограничителя количества выданных запросов")
+    @Description("Ограничитель должен стоять в 100 запросов, не больше!")
     public void t1_2_checkMaxLimitsSearch(){
         try {
             Map<String, Object> params = t1_2_checkLimitsSearch.getParameters();
