@@ -87,19 +87,40 @@ public class PositiveTests {
             }
             // Подсчет количества id пришедшего запроса
             int count = 0;
+            int expected = 100;
             for (Result result : body.getResults()) {
                 if(result.getId() != 0) {
                     count ++;
                 } else {
                     System.out.println("Ошибка подсчета: " + result.getId());
                 }
+                assertEquals("Количество айдишников не совпадает!",expected,count);
             }
             System.out.println("Количество айдишников: " + count);
-
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Step
+    @Test
+    @DisplayName("Работоспособность ограничителя количества выданных запросов")
+    @Description("Должен прийти один запрос, даже если параметр number = 0")
+    public void t1_3_checkMinLimitsSearch(){
+        ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
+
+        Response response = given()
+                .spec(receiptBaseSettings.getSpec())
+                .queryParams("number", 0)
+//                .log().all()
+                .get("recipes/complexSearch");
+        response.then().statusCode(200);
+        // Чек, что тело не пустое
+        // Ошибка тут, надо сделать pojo и туда разложить ответ и метод стринга туда запихнуть!
+        Root root = response.then().extract().as(Root.class);
+        assertNotNull(root.getResults());
+        System.out.println("Тело запроса не пустое!" + root.getResults().toString());
     }
 
 

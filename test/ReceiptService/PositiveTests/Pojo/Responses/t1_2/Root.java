@@ -42,4 +42,14 @@ public class Root{
     public void setTotalResults(int totalResults) {
         this.totalResults = totalResults;
     }
+
+    @Override
+    public String toString() {
+        return "Root{" +
+                "results=" + results +
+                ", offset=" + offset +
+                ", number=" + number +
+                ", totalResults=" + totalResults +
+                '}';
+    }
 }
