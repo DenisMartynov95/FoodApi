@@ -12,7 +12,7 @@ public class t1_1_checkSearchData {
     public static final String MAX_CALORIES = "maxCalories";
     public static final String MIN_CALORIES = "minCalories";
 
-    public static Map<String, Object> getParameters1() {
+    public static Map<String, Object> getParameters() {
         Map<String,Object> parameters = new HashMap<>();
         parameters.put(QUERY, "fish");
         parameters.put(MAX_CALORIES, 400);
