@@ -159,10 +159,8 @@ public class PositiveTests {
             // Проверка что totalResults = 0
             assertEquals("Поля totalResults не равны !", expectTotalResults, root.getTotalResults());
             // Удостоверка что массив пуст
-            for (ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Result result: root.getResults()) {
-                assertNull(result.toString());
-                System.out.println("Тест №1_4 прошел успешно! Массив пуст" + root.getResults().toString());
-            }
+            assertTrue("Массив должен быть пустым!", root.getResults().isEmpty());
+            System.out.println("Тест №1_4 прошел успешно! Массив действительно пуст: " + root.getResults().toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
