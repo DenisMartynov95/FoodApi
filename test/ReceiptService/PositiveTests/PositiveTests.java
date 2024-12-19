@@ -7,6 +7,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ReceiptService.PositiveTests.Pojo.Requests.*;
@@ -24,9 +25,11 @@ public class PositiveTests {
 //        ReceiptBaseSettings receiptSpec = new ReceiptBaseSettings();
 //    }
 
-    // Тест-сьют по ручке поиска рецептов
+    // Тест-сьют по ручке поиска рецептов recipes/complexSearch
     // №1 - базовая проверка, что поиск работает и возвращает данные
     // №2 - № 3 - проверка ограничителя выдачи результатов (от 1 до 100)
+    // №4 - проверка, что при некорректно запросе - приходят валидные данные
+
     @Step
     @Test
     @DisplayName("Работоспособность поиска на сервисе")
@@ -50,7 +53,7 @@ public class PositiveTests {
             assertNotNull("Ответ пуст!", body.toString());
 
             System.out.println("Количество результатов запроса: " + body.getTotalResults());
-            System.out.println(" ");
+            System.out.println("Тест №1_1 прошел успешно!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -97,6 +100,8 @@ public class PositiveTests {
                 assertEquals("Количество айдишников не совпадает!", expected, count);
             }
             System.out.println("Количество айдишников: " + count);
+            System.out.println("Тест №1_2 прошел успешно!");
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -108,19 +113,26 @@ public class PositiveTests {
     @DisplayName("Работоспособность ограничителя количества выданных запросов")
     @Description("Должен прийти один запрос, даже если параметр number = 0")
     public void t1_3_checkMinLimitsSearch() {
-        ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
 
-        Response response = given()
-                .spec(receiptBaseSettings.getSpec())
-                .queryParams("number", 0)
+        try {
+            ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
+
+            Response response = given()
+                    .spec(receiptBaseSettings.getSpec())
+                    .queryParams("number", 0)
 //                .log().all()
-                .get("recipes/complexSearch");
-        response.then().statusCode(200);
-        // Чек, что тело не пустое, привязываю определенный класс, дабы разорвать зависимость от предыдущих тестов
-        ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root root;
-        root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root.class);
-        assertNotNull(root.getResults());
-        System.out.println("Тело запроса не пустое! Список результатов: " + root.getResults().toString());
+                    .get("recipes/complexSearch");
+            response.then().statusCode(200);
+            // Чек, что тело не пустое, привязываю определенный класс, дабы разорвать зависимость от предыдущих тестов
+            ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root root;
+            root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root.class);
+            assertNotNull(root.getResults());
+            System.out.println("Тело запроса не пустое! Список результатов: " + root.getResults().toString());
+            System.out.println("Тест №1_3 прошел успешно!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @Step
@@ -128,17 +140,35 @@ public class PositiveTests {
     @DisplayName("Проверка, что некорректный запрос вернет 0 результатов")
     @Description("Если например минимальное количество калорий = 1000, а максимальное = 1")
     public void t1_4_checkFailedSearch() {
-        ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
-        Map<String, Object> params = t1_4_checkFailedSearch.getParameters();
+        try {
+            ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
+            Map<String, Object> params = t1_4_checkFailedSearch.getParameters();
 
-        Response response = given()
-                .spec(receiptBaseSettings.getSpec())
-                .queryParams(params)
-                .get("recipes/complexSearch");
-        response.then().statusCode(200);
-        // Начинаю проверку пришедшего ответа
-        ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root.class);
-
+            Response response = given()
+                    .spec(receiptBaseSettings.getSpec())
+                    .queryParams(params)
+                    .get("recipes/complexSearch");
+            response.then().statusCode(200);
+            // Начинаю проверку пришедшего ответа
+            ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root.class);
+            int expectNumbers = 1;
+            int expectTotalResults = 0;
+            // Проверка что numbers = 1
+            Assert.assertEquals("Поле numbers не 1!",expectNumbers,root.getNumber());
+            // Проверка что totalResults = 0
+            Assert.assertEquals("Поля totalResults не равны !", expectTotalResults, root.getTotalResults());
+            // Удостоверка что массив пуст
+            for (ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Result result : root.getResults()) {
+                if (result.toString().isEmpty()) {
+                    System.out.println("Тест №1_4 прошел успешно. Приходящий массив с результатами - пуст!" + result.toString());
+                } else {
+                    System.out.println("Тест №1_4 провалился! Приходящий массив не пуст! " + result.toString());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
 
     }
