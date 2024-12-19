@@ -153,18 +153,15 @@ public class PositiveTests {
             ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root.class);
             int expectNumbers = 1;
             int expectTotalResults = 0;
+            String expectedArray = "[]";
             // Проверка что numbers = 1
-            Assert.assertEquals("Поле numbers не 1!",expectNumbers,root.getNumber());
+            assertEquals("Поле numbers не 1!",expectNumbers,root.getNumber());
             // Проверка что totalResults = 0
-            Assert.assertEquals("Поля totalResults не равны !", expectTotalResults, root.getTotalResults());
+            assertEquals("Поля totalResults не равны !", expectTotalResults, root.getTotalResults());
             // Удостоверка что массив пуст
-            for (ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Result result : root.getResults()) {
-                if (result.toString().isEmpty()) {
-                    System.out.println("Тест №1_4 прошел успешно. Приходящий массив с результатами - пуст!" + result.toString());
-                } else {
-                    System.out.println("Тест №1_4 провалился! Приходящий массив не пуст! " + result.toString());
-                    break;
-                }
+            for (ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Result result: root.getResults()) {
+                assertNull(result.toString());
+                System.out.println("Тест №1_4 прошел успешно! Массив пуст" + root.getResults().toString());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
