@@ -1,4 +1,4 @@
-package ReceiptService.PositiveTests.Pojo.Responses.t1_2;
+package ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch;
 
 public class Nutrient{
     private String name;

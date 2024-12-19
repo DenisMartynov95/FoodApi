@@ -43,11 +43,11 @@ public class PositiveTests {
                     .get("recipes/complexSearch");
             response.then().assertThat().statusCode(200);
             // Чек статус кода
-            assertEquals("Статус-код должен быть 200",200, response.statusCode());
+            assertEquals("Статус-код должен быть 200", 200, response.statusCode());
 
             // Парсинг тела и чек, что тело не пустое
             Root body = response.then().extract().body().as(Root.class);
-            assertNotNull("Ответ пуст!",body.toString());
+            assertNotNull("Ответ пуст!", body.toString());
 
             System.out.println("Количество результатов запроса: " + body.getTotalResults());
             System.out.println(" ");
@@ -60,7 +60,7 @@ public class PositiveTests {
     @Test
     @DisplayName("Работоспособность ограничителя количества выданных запросов")
     @Description("Ограничитель должен стоять в 100 запросов, не больше!")
-    public void t1_2_checkMaxLimitsSearch(){
+    public void t1_2_checkMaxLimitsSearch() {
         try {
             Map<String, Object> params = t1_2_checkLimitsSearch.getParameters();
             ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
@@ -89,12 +89,12 @@ public class PositiveTests {
             int count = 0;
             int expected = 100;
             for (Result result : body.getResults()) {
-                if(result.getId() != 0) {
-                    count ++;
+                if (result.getId() != 0) {
+                    count++;
                 } else {
                     System.out.println("Ошибка подсчета: " + result.getId());
                 }
-                assertEquals("Количество айдишников не совпадает!",expected,count);
+                assertEquals("Количество айдишников не совпадает!", expected, count);
             }
             System.out.println("Количество айдишников: " + count);
 
@@ -107,7 +107,7 @@ public class PositiveTests {
     @Test
     @DisplayName("Работоспособность ограничителя количества выданных запросов")
     @Description("Должен прийти один запрос, даже если параметр number = 0")
-    public void t1_3_checkMinLimitsSearch(){
+    public void t1_3_checkMinLimitsSearch() {
         ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
 
         Response response = given()
@@ -116,12 +116,31 @@ public class PositiveTests {
 //                .log().all()
                 .get("recipes/complexSearch");
         response.then().statusCode(200);
-        // Чек, что тело не пустое
-        // Ошибка тут, надо сделать pojo и туда разложить ответ и метод стринга туда запихнуть!
-        Root root = response.then().extract().as(Root.class);
+        // Чек, что тело не пустое, привязываю определенный класс, дабы разорвать зависимость от предыдущих тестов
+        ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root root;
+        root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root.class);
         assertNotNull(root.getResults());
-        System.out.println("Тело запроса не пустое!" + root.getResults().toString());
+        System.out.println("Тело запроса не пустое! Список результатов: " + root.getResults().toString());
     }
 
+    @Step
+    @Test
+    @DisplayName("Проверка, что некорректный запрос вернет 0 результатов")
+    @Description("Если например минимальное количество калорий = 1000, а максимальное = 1")
+    public void t1_4_checkFailedSearch() {
+        ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
+        Map<String, Object> params = t1_4_checkFailedSearch.getParameters();
 
+        Response response = given()
+                .spec(receiptBaseSettings.getSpec())
+                .queryParams(params)
+                .get("recipes/complexSearch");
+        response.then().statusCode(200);
+        // Начинаю проверку пришедшего ответа
+        ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch.Root.class);
+
+
+
+    }
 }
+

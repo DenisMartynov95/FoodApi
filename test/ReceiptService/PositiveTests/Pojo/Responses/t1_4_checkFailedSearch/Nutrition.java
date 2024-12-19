@@ -1,4 +1,4 @@
-package ReceiptService.PositiveTests.Pojo.Responses.t1_2;
+package ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch;
 
 import java.util.ArrayList;
 

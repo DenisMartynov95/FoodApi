@@ -1,4 +1,4 @@
-package ReceiptService.PositiveTests.Pojo.Responses.t1_2;
+package ReceiptService.PositiveTests.Pojo.Responses.t1_4_checkFailedSearch;
 
 public class Result{
     private int id;
@@ -50,4 +50,14 @@ public class Result{
         this.nutrition = nutrition;
     }
 
+    @Override
+    public String toString() {
+        return "Result{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", nutrition=" + nutrition +
+                '}';
+    }
 }
