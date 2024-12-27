@@ -181,6 +181,8 @@ public class PositiveTests {
                     .body(requestBody)
                     .post("users/connect");
             response.then().statusCode(200);
+            // Добавить логику распаковки нужных данных пароля, хеша и логина
+            // Проверить ассертом статус который приходит
 
 
         } catch (Exception e) {
