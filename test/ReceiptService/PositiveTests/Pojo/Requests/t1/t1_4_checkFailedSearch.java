@@ -1,4 +1,4 @@
-package ReceiptService.PositiveTests.Pojo.Requests;
+package ReceiptService.PositiveTests.Pojo.Requests.t1;
 
 import java.util.HashMap;
 import java.util.Map;

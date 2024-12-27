@@ -1,5 +1,9 @@
 package ReceiptService.PositiveTests;
 
+import ReceiptService.MealPlanningBaseSettings;
+import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_1_checkSearchData;
+import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_2_checkLimitsSearch;
+import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_4_checkFailedSearch;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Result;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root;
 import ReceiptService.ReceiptBaseSettings;
@@ -7,11 +11,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import ReceiptService.PositiveTests.Pojo.Requests.*;
-import org.junit.runners.Parameterized;
 
 import java.util.Map;
 
@@ -171,6 +171,7 @@ public class PositiveTests {
     @Description("Проверка, что пользователь вообще создается и данные приходят")
     public void t2_1_checkSuccessRegistration(){
         try {
+            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
