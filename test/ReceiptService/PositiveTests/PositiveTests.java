@@ -26,9 +26,9 @@ public class PositiveTests {
 //    }
 
     // Тест-сьют по ручке поиска рецептов recipes/complexSearch
-    // №1 - базовая проверка, что поиск работает и возвращает данные
-    // №2 - № 3 - проверка ограничителя выдачи результатов (от 1 до 100)
-    // №4 - проверка, что при некорректно запросе - приходят валидные данные
+    // №1.1 - базовая проверка, что поиск работает и возвращает данные
+    // №1.2 - № 1.3 - проверка ограничителя выдачи результатов (от 1 до 100)
+    // №1.4 - проверка, что при некорректно запросе - приходят валидные данные
 
     @Step
     @Test
@@ -113,7 +113,6 @@ public class PositiveTests {
     @DisplayName("Работоспособность ограничителя количества выданных запросов")
     @Description("Должен прийти один запрос, даже если параметр number = 0")
     public void t1_3_checkMinLimitsSearch() {
-
         try {
             ReceiptBaseSettings receiptBaseSettings = new ReceiptBaseSettings();
 
@@ -164,8 +163,20 @@ public class PositiveTests {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-
     }
+
+    @Step
+    @Test
+    @DisplayName("Проверка создания пользователя и получение от него важных данных")
+    @Description("Проверка, что пользователь вообще создается и данные приходят")
+    public void t2_1_checkSuccessRegistration(){
+        try {
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 }
 
