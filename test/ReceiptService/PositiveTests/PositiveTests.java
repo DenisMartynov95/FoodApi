@@ -172,12 +172,17 @@ public class PositiveTests {
     public void t2_1_checkSuccessRegistration(){
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+            String requestBody =
+
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .post("users/connect")
+                    .body();
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-
 
 }
 
