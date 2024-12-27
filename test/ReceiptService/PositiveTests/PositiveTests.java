@@ -4,6 +4,7 @@ import ReceiptService.MealPlanningBaseSettings;
 import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_1_checkSearchData;
 import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_2_checkLimitsSearch;
 import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_4_checkFailedSearch;
+import ReceiptService.PositiveTests.Pojo.Requests.t2.t2_1_checkSuccessRegistration;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Result;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root;
 import ReceiptService.ReceiptBaseSettings;
@@ -172,12 +173,15 @@ public class PositiveTests {
     public void t2_1_checkSuccessRegistration(){
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-            String requestBody =
+            // Создаю объект класса, содержащий данные, которые я хочу передать
+            ReceiptService.PositiveTests.Pojo.Requests.t2.t2_1_checkSuccessRegistration requestBody = new t2_1_checkSuccessRegistration();
 
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
-                    .post("users/connect")
-                    .body();
+                    .body(requestBody)
+                    .post("users/connect");
+            response.then().statusCode(200);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
