@@ -12,10 +12,12 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
 
+import static ReceiptService.PositiveTests.ImportantData.SavedData.*;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
@@ -166,6 +168,9 @@ public class PositiveTests {
         }
     }
 
+    // Тест-сьют по ручке поиска рецептов recipes/complexSearch
+    // №2.1 - базовая проверка, что пользователь создается и проброс приходящих важных данных в переменные
+
     @Step
     @Test
     @DisplayName("Проверка создания пользователя и получение от него важных данных")
@@ -181,9 +186,23 @@ public class PositiveTests {
                     .body(requestBody)
                     .post("users/connect");
             response.then().statusCode(200);
-            // Добавить логику распаковки нужных данных пароля, хеша и логина
-            // Проверить ассертом статус который приходит
 
+            // Распаковываю ответ и манипулирую его данными
+            ReceiptService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root body = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root.class);
+            // Проверяю что поля не пусты, а потом перекладываю эти данные на хранения в переменные SavedData
+            Assert.assertEquals("Статус не успешен!", body.getStatus(),"success");
+            Assert.assertNotNull("userName пуст!", body.getUsername());
+            Assert.assertNotNull("spoonacularPassword пуст!", body.getSpoonacularPassword());
+            Assert.assertNotNull("hash пуст!", body.getHash());
+
+            // Перекладываю важные данные в класс SavedData
+            username = body.getHash();
+            spoonacularPassword = body.getSpoonacularPassword();
+            hash = body.getHash();
+
+            // Вывожу сообщение об успехе
+            System.out.println("Тест №2_1 прошел успешно! Данные приняты");
+            System.out.println(body.getHash() + " " + body.getUsername() + " " + body.getSpoonacularPassword() + " " + body.getStatus());
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
