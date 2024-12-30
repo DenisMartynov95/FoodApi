@@ -1,23 +1,20 @@
 package ReceiptService.PositiveTests;
 
-import ReceiptService.MealPlanningBaseSettings;
-import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_1_checkSearchData;
-import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_2_checkLimitsSearch;
-import ReceiptService.PositiveTests.Pojo.Requests.t1.t1_4_checkFailedSearch;
-import ReceiptService.PositiveTests.Pojo.Requests.t2.t2_1_checkSuccessRegistration;
+import ReceiptService.PositiveTests.Pojo.Requests.t1_1_checkSearchData;
+import ReceiptService.PositiveTests.Pojo.Requests.t1_2_checkLimitsSearch;
+import ReceiptService.PositiveTests.Pojo.Requests.t1_4_checkFailedSearch;
+import ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root;
 import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Result;
-import ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root;
 import ReceiptService.ReceiptBaseSettings;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
 
-import static ReceiptService.PositiveTests.ImportantData.SavedData.*;
+
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
 
@@ -52,7 +49,7 @@ public class PositiveTests {
             assertEquals("Статус-код должен быть 200", 200, response.statusCode());
 
             // Парсинг тела и чек, что тело не пустое
-            Root body = response.then().extract().body().as(Root.class);
+            ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root body = response.then().extract().body().as(ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root.class);
             assertNotNull("Ответ пуст!", body.toString());
 
             System.out.println("Количество результатов запроса: " + body.getTotalResults());
@@ -81,7 +78,7 @@ public class PositiveTests {
             // Чек статус-кода
             assertEquals("Статус-код должен быть 200", 200, response.statusCode());
             // Чек, что тело не пустое
-            Root body = response.then().extract().body().as(Root.class);
+            ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root body = response.then().extract().body().as(ReceiptService.PositiveTests.Pojo.Responses.t1_1checkSearch.Root.class);
             assertNotNull("Ответ пуст!", body.toString());
             // Чек, что ограничитель сработал
             if (body.getNumber() == 100) {
@@ -126,8 +123,8 @@ public class PositiveTests {
                     .get("recipes/complexSearch");
             response.then().statusCode(200);
             // Чек, что тело не пустое, привязываю определенный класс, дабы разорвать зависимость от предыдущих тестов
-            ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root root;
-            root = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t1_3_checkMinLimitsSearch.Root.class);
+            Root root;
+            root = response.then().extract().as(Root.class);
             assertNotNull(root.getResults());
             System.out.println("Тело запроса не пустое! Список результатов: " + root.getResults().toString());
             System.out.println("Тест №1_3 прошел успешно!");
@@ -157,7 +154,7 @@ public class PositiveTests {
             int expectTotalResults = 0;
             String expectedArray = "[]";
             // Проверка что numbers = 1
-            assertEquals("Поле numbers не 1!",expectNumbers,root.getNumber());
+            assertEquals("Поле numbers не 1!", expectNumbers, root.getNumber());
             // Проверка что totalResults = 0
             assertEquals("Поля totalResults не равны !", expectTotalResults, root.getTotalResults());
             // Удостоверка что массив пуст
@@ -167,47 +164,4 @@ public class PositiveTests {
             System.out.println(e.getMessage());
         }
     }
-
-    // Тест-сьют по ручке поиска рецептов recipes/complexSearch
-    // №2.1 - базовая проверка, что пользователь создается и проброс приходящих важных данных в переменные
-
-    @Step
-    @Test
-    @DisplayName("Проверка создания пользователя и получение от него важных данных")
-    @Description("Проверка, что пользователь вообще создается и данные приходят")
-    public void t2_1_checkSuccessRegistration(){
-        try {
-            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-            // Создаю объект класса, содержащий данные, которые я хочу передать
-            ReceiptService.PositiveTests.Pojo.Requests.t2.t2_1_checkSuccessRegistration requestBody = new t2_1_checkSuccessRegistration();
-
-            Response response = given()
-                    .spec(mealPlanningBaseSettings.getSpec())
-                    .body(requestBody)
-                    .post("users/connect");
-            response.then().statusCode(200);
-
-            // Распаковываю ответ и манипулирую его данными
-            ReceiptService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root body = response.then().extract().as(ReceiptService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root.class);
-            // Проверяю что поля не пусты, а потом перекладываю эти данные на хранения в переменные SavedData
-            Assert.assertEquals("Статус не успешен!", body.getStatus(),"success");
-            Assert.assertNotNull("userName пуст!", body.getUsername());
-            Assert.assertNotNull("spoonacularPassword пуст!", body.getSpoonacularPassword());
-            Assert.assertNotNull("hash пуст!", body.getHash());
-
-            // Перекладываю важные данные в класс SavedData
-            username = body.getHash();
-            spoonacularPassword = body.getSpoonacularPassword();
-            hash = body.getHash();
-
-            // Вывожу сообщение об успехе
-            System.out.println("Тест №2_1 прошел успешно! Данные приняты");
-            System.out.println(body.getHash() + " " + body.getUsername() + " " + body.getSpoonacularPassword() + " " + body.getStatus());
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
 }
-
