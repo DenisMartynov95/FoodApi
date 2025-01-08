@@ -63,18 +63,19 @@ public class PositiveTests {
     @Description("Так как на ручке имеются баги, можно зарегать пустые строки - буду подкладывать абсолютно некорректный тип данных")
     @ParameterizedTest
     @CsvSource({
-            "'', '', '', ''",      // Просто пустые строки - ДОЛЖЕН ПРОЙТИ ТЕСТ ЗДЕСЬ
-            "#, '', '', ''",       // Некорректный тип в первом параметре -  УЖЕ НЕ ДОЛЖНЫ НАЧАТЬ ПРОХОДИТЬ
-            "#, ##, '', ''",       // Некорректный тип в первом и втором параметрах
-            "#, ##,###, ''",
-            "#, #@,#@#,#^$#",
+            "#, null, null, null",        // Символ # в username
+            "#, ##, null, null",          // Символ # в username, ## в firstName
+            "#, ##, ###, null",           // Несколько символов #
+            "#, #@, #@#, #^$#",           // Комбинация символов
+            "null, null, null, null"      // Все значения null
     })
-
     public void t2_2_getErrorMessageAfterFailedRegistration(String username, String firstName, String lastName, String email) {
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-            String requestBody = String.format(
-                    "{ \"username\": \"%s\", \"firstName\": \"%s\", \"lastName\": \"%s\", \"email\": \"%s\" }",
+
+            // Генерируем RAW JSON
+            String requestBody = String.format( // Так как мне нужно передать просто # без СКОБОЧЕК - то я и убрал скобки из %s , если бы нужно было передать строку - то было бы "%s"
+                    "{ \"username\": %s, \"firstName\": %s, \"lastName\": %s, \"email\": %s }",
                     username, firstName, lastName, email
             );
 
@@ -83,11 +84,12 @@ public class PositiveTests {
                     .body(requestBody)
                     .log().all()
                     .post("users/connect");
+
+            // Проверяем статус ответа
             response.then().statusCode(400);
 
-
         } catch (Exception e) {
-          System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
