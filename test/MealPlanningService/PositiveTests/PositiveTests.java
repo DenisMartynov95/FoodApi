@@ -10,8 +10,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import static MealPlanningService.PositiveTests.ImportantData.SavedData.*;
 import static io.restassured.RestAssured.given;
@@ -71,8 +69,8 @@ public class PositiveTests {
             "#, ##,###, ''",
             "#, #@,#@#,#^$#",
     })
-    @Test
-    public void t2_1_getErrorMessageAfterFailedRegistration(String username, String firstName, String lastName, String email) {
+
+    public void t2_2_getErrorMessageAfterFailedRegistration(String username, String firstName, String lastName, String email) {
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
             String requestBody = String.format(
@@ -83,9 +81,9 @@ public class PositiveTests {
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
                     .body(requestBody)
+                    .log().all()
                     .post("users/connect");
-
-
+            response.then().statusCode(400);
 
 
         } catch (Exception e) {
