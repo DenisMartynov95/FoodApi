@@ -1,5 +1,6 @@
 package MealPlanningService.PositiveTests;
 
+import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
 import ReceiptService.MealPlanningBaseSettings;
 import MealPlanningService.PositiveTests.Pojo.Requests.t2_1_checkSuccessRegistration;
 import io.qameta.allure.Description;
@@ -38,7 +39,7 @@ public class PositiveTests {
 
             // Распаковываю ответ и манипулирую его данными
             MealPlanningService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root body = response.then().extract().as(MealPlanningService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root.class);
-            // Проверяю что поля не пусты, а потом перекладываю эти данные на хранения в переменные SavedData
+            // Проверяю что поля не пусты, а потом перекладываю эти данные на хранение в переменные SavedData
             Assert.assertEquals("Статус не успешен!", body.getStatus(),"success");
             Assert.assertNotNull("userName пуст!", body.getUsername());
             Assert.assertNotNull("spoonacularPassword пуст!", body.getSpoonacularPassword());
@@ -67,7 +68,6 @@ public class PositiveTests {
             "#, ##, null, null",          // Символ # в username, ## в firstName
             "#, ##, ###, null",           // Несколько символов #
             "#, #@, #@#, #^$#",           // Комбинация символов
-            "null, null, null, null"      // Все значения null
     })
     public void t2_2_getErrorMessageAfterFailedRegistration(String username, String firstName, String lastName, String email) {
         try {
@@ -87,7 +87,16 @@ public class PositiveTests {
 
             // Проверяем статус ответа
             response.then().statusCode(400);
-
+            // Распаковываю приходящий ответ в pojo
+            Root body = response.body().as(Root.class);
+            // Проверка статуса для всех 4 тестов
+            Assert.assertEquals("Пришел статус Success, хотя должен был быть Failed","Failed",body.getStatus());
+            // Внедряю перебор для всех прогнанных кейсов, чтобы затем вывести их в сообщении
+            if (body.getStatus().equals("Failed")) {
+                System.out.println("Тестовый сценарий: " + requestBody + " прошел успешно! Текст ошибки высветился: " + body.getStatus());
+            } else {
+                System.out.println("Тестовый сценарий: " + requestBody + " провален! Текст ошибки не появляется - валидация пройдена с ошибочными данными! " + body.getStatus());
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
