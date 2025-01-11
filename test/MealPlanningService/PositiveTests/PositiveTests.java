@@ -97,6 +97,7 @@ public class PositiveTests {
             } else {
                 System.out.println("Тестовый сценарий: " + requestBody + " провален! Текст ошибки не появляется - валидация пройдена с ошибочными данными! " + body.getStatus());
             }
+            System.out.println("Тест №2.2 прошел успешно!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
