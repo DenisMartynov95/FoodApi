@@ -90,9 +90,9 @@ public class PositiveTests {
             // Распаковываю приходящий ответ в pojo
             Root body = response.body().as(Root.class);
             // Проверка статуса для всех 4 тестов
-            Assert.assertEquals("Пришел статус Success, хотя должен был быть Failed","Failed",body.getStatus());
+            Assert.assertEquals("Пришел статус Success, хотя должен был быть failure " + body.getStatus(),"failure",body.getStatus());
             // Внедряю перебор для всех прогнанных кейсов, чтобы затем вывести их в сообщении
-            if (body.getStatus().equals("Failed")) {
+            if (body.getStatus().equals("failure")) {
                 System.out.println("Тестовый сценарий: " + requestBody + " прошел успешно! Текст ошибки высветился: " + body.getStatus());
             } else {
                 System.out.println("Тестовый сценарий: " + requestBody + " провален! Текст ошибки не появляется - валидация пройдена с ошибочными данными! " + body.getStatus());
