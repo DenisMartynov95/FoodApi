@@ -56,4 +56,16 @@ public class Meal{
     public void setId(int id) {
         this.id = id;
     }
+
+    public Meal(int id, String imageType, String title, int readyInMinutes, int servings, String sourceUrl) {
+        this.id = id;
+        this.imageType = imageType;
+        this.title = title;
+        this.readyInMinutes = readyInMinutes;
+        this.servings = servings;
+        this.sourceUrl = sourceUrl;
+    }
+
+    public Meal() {
+    }
 }

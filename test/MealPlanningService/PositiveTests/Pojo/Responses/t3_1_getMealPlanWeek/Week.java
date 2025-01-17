@@ -65,5 +65,8 @@ public class Week{
     public void setSunday(Sunday sunday) {
         this.sunday = sunday;
     }
+
+    public Week() {
+    }
 }
 

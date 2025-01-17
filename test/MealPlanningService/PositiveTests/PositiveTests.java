@@ -1,6 +1,7 @@
 package MealPlanningService.PositiveTests;
 
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
+import MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.*;
 import ReceiptService.MealPlanningBaseSettings;
 import MealPlanningService.PositiveTests.Pojo.Requests.t2_1_checkSuccessRegistration;
 import io.qameta.allure.Description;
@@ -127,6 +128,28 @@ public class PositiveTests {
             MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root body = response.then().extract().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root.class);
             // Чек, что ответ не пуст
             Assert.assertNotNull("Ответ не может быть пуст",body);
+            // Чек всех дней недели, что они заполнились нужными данными
+            Monday monday = new Monday();
+            Assert.assertNotNull("Понедельник пуст",monday.getMeals());
+            System.out.println("Понедельник: " + monday.getMeals());
+            Tuesday tuesday = new Tuesday();
+            Assert.assertNotNull("Вторник пуст",tuesday.getMeals());
+            System.out.println("Вторник: " + tuesday.getMeals());
+            Wednesday wednesday = new Wednesday();
+            Assert.assertNotNull("Среда пуста",wednesday.getMeals());
+            System.out.println("Среда: " + wednesday.getMeals());
+            Thursday thursday = new Thursday();
+            Assert.assertNotNull("Четверг пуст",thursday.getMeals());
+            System.out.println("Четверг: " + thursday.getMeals());
+            Friday friday = new Friday();
+            Assert.assertNotNull("Пятница пуста",friday.getMeals());
+            System.out.println("Пятница: " + friday.getMeals());
+            Saturday saturday = new Saturday();
+            Assert.assertNotNull("Суббота пуста",saturday.getMeals());
+            System.out.println("Суббота: " + saturday.getMeals());
+            Sunday sunday = new Sunday();
+            Assert.assertNotNull("Воскресенье пуст",sunday.getMeals());
+            System.out.println("Воскресенье: " + sunday.getMeals());
 
 
         } catch (Exception e) {

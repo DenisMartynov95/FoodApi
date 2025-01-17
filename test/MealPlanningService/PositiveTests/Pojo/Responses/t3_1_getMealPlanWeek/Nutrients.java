@@ -37,4 +37,14 @@ public class Nutrients{
     public void setProtein(double protein) {
         this.protein = protein;
     }
+
+    public Nutrients(double calories, double protein, double fat, double carbohydrates) {
+        this.calories = calories;
+        this.protein = protein;
+        this.fat = fat;
+        this.carbohydrates = carbohydrates;
+    }
+
+    public Nutrients() {
+    }
 }

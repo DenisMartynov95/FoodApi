@@ -13,4 +13,10 @@ public class Root{
     }
 
 
+    public Root(Week week) {
+        this.week = week;
+    }
+
+    public Root() {
+    }
 }

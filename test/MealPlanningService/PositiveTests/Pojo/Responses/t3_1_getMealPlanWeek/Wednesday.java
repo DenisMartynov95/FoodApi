@@ -21,4 +21,12 @@ public class Wednesday{
     public void setNutrients(Nutrients nutrients) {
         this.nutrients = nutrients;
     }
+
+    public Wednesday(ArrayList<Meal> meals, Nutrients nutrients) {
+        this.meals = meals;
+        this.nutrients = nutrients;
+    }
+
+    public Wednesday() {
+    }
 }
