@@ -113,6 +113,20 @@ public class PositiveTests {
     @Test
     public void t3_1_getMealPlanWeek() {
         try {
+            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    // Так как параметра всего два в этом тесте - передаю напрямую
+                    .queryParams("timeFrame","week","targetCalories","3500")
+                    .get("mealplanner/generate");
+
+            response.then().statusCode(200);
+
+            // Распаковка ответа в pojo
+            MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root body = response.then().extract().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root.class);
+            // Чек, что ответ не пуст
+            Assert.assertNotNull("Ответ не может быть пуст",body);
 
 
         } catch (Exception e) {
