@@ -47,4 +47,14 @@ public class Nutrients{
 
     public Nutrients() {
     }
+
+    @Override
+    public String toString() {
+        return "Nutrients{" +
+                "calories=" + calories +
+                ", protein=" + protein +
+                ", fat=" + fat +
+                ", carbohydrates=" + carbohydrates +
+                '}';
+    }
 }

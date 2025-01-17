@@ -19,4 +19,11 @@ public class Root{
 
     public Root() {
     }
+
+    @Override
+    public String toString() {
+        return "Root{" +
+                "week=" + week +
+                '}';
+    }
 }

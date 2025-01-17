@@ -29,4 +29,12 @@ public class Monday{
 
     public Monday() {
     }
+
+    @Override
+    public String toString() {
+        return "Monday{" +
+                "meals=" + meals +
+                ", nutrients=" + nutrients +
+                '}';
+    }
 }

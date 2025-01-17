@@ -1,6 +1,9 @@
 package MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek;
 
-public class Week{
+import java.util.HashMap;
+import java.util.Map;
+
+public class Week {
     private Monday monday;
     private Tuesday tuesday;
     private Wednesday wednesday;
@@ -68,5 +71,35 @@ public class Week{
 
     public Week() {
     }
+
+    @Override
+    public String toString() {
+        return "Week{" +
+                "monday=" + monday +
+                ", tuesday=" + tuesday +
+                ", wednesday=" + wednesday +
+                ", thursday=" + thursday +
+                ", friday=" + friday +
+                ", saturday=" + saturday +
+                ", sunday=" + sunday +
+                '}';
+    }
+
+    // Нужен метод, который поможет мне получать все данные от всех дней недели
+
+    public Map<String, Object> getAllDaysData() {
+        Map<String, Object> allDaysData = new HashMap<>();
+
+        allDaysData.put("Monday", this.monday.getMeals());
+        allDaysData.put("Tuesday", this.tuesday.getMeals());
+        allDaysData.put("Wednesday", this.wednesday.getMeals());
+        allDaysData.put("Thursday", this.thursday.getMeals());
+        allDaysData.put("Friday", this.friday.getMeals());
+        allDaysData.put("Saturday", this.saturday.getMeals());
+        allDaysData.put("Sunday", this.sunday.getMeals());
+
+        return allDaysData;
+    }
+
 }
 

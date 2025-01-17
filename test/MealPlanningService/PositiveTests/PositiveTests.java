@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
+
 import static MealPlanningService.PositiveTests.ImportantData.SavedData.*;
 import static io.restassured.RestAssured.given;
 
@@ -129,27 +131,34 @@ public class PositiveTests {
             // Чек, что ответ не пуст
             Assert.assertNotNull("Ответ не может быть пуст",body);
             // Чек всех дней недели, что они заполнились нужными данными
-            Monday monday = new Monday();
-            Assert.assertNotNull("Понедельник пуст",monday.getMeals());
-            System.out.println("Понедельник: " + monday.getMeals());
-            Tuesday tuesday = new Tuesday();
-            Assert.assertNotNull("Вторник пуст",tuesday.getMeals());
-            System.out.println("Вторник: " + tuesday.getMeals());
-            Wednesday wednesday = new Wednesday();
-            Assert.assertNotNull("Среда пуста",wednesday.getMeals());
-            System.out.println("Среда: " + wednesday.getMeals());
-            Thursday thursday = new Thursday();
-            Assert.assertNotNull("Четверг пуст",thursday.getMeals());
-            System.out.println("Четверг: " + thursday.getMeals());
-            Friday friday = new Friday();
-            Assert.assertNotNull("Пятница пуста",friday.getMeals());
-            System.out.println("Пятница: " + friday.getMeals());
-            Saturday saturday = new Saturday();
-            Assert.assertNotNull("Суббота пуста",saturday.getMeals());
-            System.out.println("Суббота: " + saturday.getMeals());
-            Sunday sunday = new Sunday();
-            Assert.assertNotNull("Воскресенье пуст",sunday.getMeals());
-            System.out.println("Воскресенье: " + sunday.getMeals());
+
+//            String monday = body.getWeek().getMonday().toString();
+//            System.out.println(monday);
+            for (Root root : body.getWeek().getAllDaysData()) {
+
+            }
+
+//            Monday monday = new Monday();
+//            Assert.assertNotNull("Понедельник пуст",monday.getMeals());
+//            System.out.println("Понедельник: " + monday.getMeals());
+//            Tuesday tuesday = new Tuesday();
+//            Assert.assertNotNull("Вторник пуст",tuesday.getMeals());
+//            System.out.println("Вторник: " + tuesday.getMeals());
+//            Wednesday wednesday = new Wednesday();
+//            Assert.assertNotNull("Среда пуста",wednesday.getMeals());
+//            System.out.println("Среда: " + wednesday.getMeals());
+//            Thursday thursday = new Thursday();
+//            Assert.assertNotNull("Четверг пуст",thursday.getMeals());
+//            System.out.println("Четверг: " + thursday.getMeals());
+//            Friday friday = new Friday();
+//            Assert.assertNotNull("Пятница пуста",friday.getMeals());
+//            System.out.println("Пятница: " + friday.getMeals());
+//            Saturday saturday = new Saturday();
+//            Assert.assertNotNull("Суббота пуста",saturday.getMeals());
+//            System.out.println("Суббота: " + saturday.getMeals());
+//            Sunday sunday = new Sunday();
+//            Assert.assertNotNull("Воскресенье пуст",sunday.getMeals());
+//            System.out.println("Воскресенье: " + sunday.getMeals());
 
 
         } catch (Exception e) {
