@@ -14,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static MealPlanningService.PositiveTests.ImportantData.SavedData.*;
 import static io.restassured.RestAssured.given;
@@ -131,34 +132,14 @@ public class PositiveTests {
             // Чек, что ответ не пуст
             Assert.assertNotNull("Ответ не может быть пуст",body);
             // Чек всех дней недели, что они заполнились нужными данными
-
-//            String monday = body.getWeek().getMonday().toString();
-//            System.out.println(monday);
-            for (Root root : body.getWeek().getAllDaysData()) {
-
+            // Суть в том, что в классе Week создал метод для помощи в переборе данных из классов дней недели
+            // Затем создаю Map, где String - это день недели, а Объект - данные из класса Week
+            Map<String, Object> weekData = body.getWeek().getAllDaysData();
+            // Перебор значений с помощью интерфейса entry и запись их в переменную entry
+            for (Map.Entry<String, Object> entry : weekData.entrySet()) {
+                Assert.assertNotNull("Тело в классах дней недели - пусты",entry);
+                System.out.println("Лог тела дней недели: " + entry.toString());
             }
-
-//            Monday monday = new Monday();
-//            Assert.assertNotNull("Понедельник пуст",monday.getMeals());
-//            System.out.println("Понедельник: " + monday.getMeals());
-//            Tuesday tuesday = new Tuesday();
-//            Assert.assertNotNull("Вторник пуст",tuesday.getMeals());
-//            System.out.println("Вторник: " + tuesday.getMeals());
-//            Wednesday wednesday = new Wednesday();
-//            Assert.assertNotNull("Среда пуста",wednesday.getMeals());
-//            System.out.println("Среда: " + wednesday.getMeals());
-//            Thursday thursday = new Thursday();
-//            Assert.assertNotNull("Четверг пуст",thursday.getMeals());
-//            System.out.println("Четверг: " + thursday.getMeals());
-//            Friday friday = new Friday();
-//            Assert.assertNotNull("Пятница пуста",friday.getMeals());
-//            System.out.println("Пятница: " + friday.getMeals());
-//            Saturday saturday = new Saturday();
-//            Assert.assertNotNull("Суббота пуста",saturday.getMeals());
-//            System.out.println("Суббота: " + saturday.getMeals());
-//            Sunday sunday = new Sunday();
-//            Assert.assertNotNull("Воскресенье пуст",sunday.getMeals());
-//            System.out.println("Воскресенье: " + sunday.getMeals());
 
 
         } catch (Exception e) {
