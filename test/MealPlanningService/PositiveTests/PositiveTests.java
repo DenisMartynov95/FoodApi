@@ -187,8 +187,9 @@ public class PositiveTests {
             // Написал чисто для закрепления, этот код не нужен. ведь я уже проверил body
             Map<String,Object> responseDataOfWeek = body.getWeek().getAllDaysData();
             for (Map.Entry<String,Object> entry : responseDataOfWeek.entrySet()) {
-                if (Assert.assertNotNull(entry))
-            }
+                Assert.assertNotNull(entry);
+                }
+            System.out.println("Тест кейс №3.3 прошел успешно! При полноценных параметрах - приходит ответ");
 
 
 
