@@ -1,7 +1,6 @@
 package MealPlanningService.PositiveTests;
 
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
-import MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.*;
 import ReceiptService.MealPlanningBaseSettings;
 import MealPlanningService.PositiveTests.Pojo.Requests.t2_1_checkSuccessRegistration;
 import io.qameta.allure.Description;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import static MealPlanningService.PositiveTests.ImportantData.SavedData.*;
@@ -140,7 +138,43 @@ public class PositiveTests {
                 Assert.assertNotNull("Тело в классах дней недели - пусты",entry);
                 System.out.println("Лог тела дней недели: " + entry.toString());
             }
+            System.out.println("Тест кейс №3.1 прошел успешно!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
+    }
+
+    @Step
+    @Test
+    @DisplayName("Проверка, что при пустом запросе - не генерируется блюда и БД тем самым не загружается")
+    public void t3_2_getFailedMealPlan() {
+        try {
+            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .queryParams("timeFrame", " ","targetCalories", " ")
+                    .get("mealplanner/generate");
+
+            response.then().statusCode(404);
+
+            System.out.println("Тест кейс №3.2 прошел успешно - данные не выдаются!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Step
+    @Test
+    @DisplayName("Проверка, что при всех параметрах выдается результат, ГЕНЕРАЦИЯ ДЛЯ НЕДЕЛИ")
+    public void t3_3_getMealPlanWeekAfterFillAllParameters() {
+        try {
+            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .get("mealplanner/generate");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -148,6 +182,18 @@ public class PositiveTests {
 
     }
 
+
+//    @Step
+//    @Test
+//    @DisplayName("Проверка, что генерация на другой промежуток не допустим!")
+//    @Description("В тестовой документации написано, что поддерживается генерация только для WEEK \ DAY")
+//    public void t3_4_checkUnsuccessfulGeneration() {
+//        try {
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
 
 
