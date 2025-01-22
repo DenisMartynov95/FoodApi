@@ -1,6 +1,8 @@
 package MealPlanningService.PositiveTests;
 
+import MealPlanningService.PositiveTests.Pojo.Requests.t3_1_getMealPlanWeekAfterFillAllParameters;
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
+import MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Week;
 import ReceiptService.MealPlanningBaseSettings;
 import MealPlanningService.PositiveTests.Pojo.Requests.t2_1_checkSuccessRegistration;
 import io.qameta.allure.Description;
@@ -174,7 +176,21 @@ public class PositiveTests {
 
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
+                    .queryParams(t3_1_getMealPlanWeekAfterFillAllParameters.getParameters())
                     .get("mealplanner/generate");
+            response.then().assertThat().statusCode(200);
+            // Распаковка ответа в pojo классы
+            MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Root body = response.body().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Root.class);
+            // Проверка, что ответ не пуст
+            Assert.assertNotNull(body);
+            // Более углубленная проверка что приходящие массивы - не пусты
+            // Написал чисто для закрепления, этот код не нужен. ведь я уже проверил body
+            Map<String,Object> responseDataOfWeek = body.getWeek().getAllDaysData();
+            for (Map.Entry<String,Object> entry : responseDataOfWeek.entrySet()) {
+                if (Assert.assertNotNull(entry))
+            }
+
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
