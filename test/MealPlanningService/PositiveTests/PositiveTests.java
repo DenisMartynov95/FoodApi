@@ -191,26 +191,27 @@ public class PositiveTests {
                 }
             System.out.println("Тест кейс №3.3 прошел успешно! При полноценных параметрах - приходит ответ");
 
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    @Step
+    @Test
+    @DisplayName("Проверка, что при попытке сгенерировать на больше чем неделю - генерируется максимально допустимая - на неделю!")
+    public void t3_4_checkLimitPeriodGeneration() {
+        try {
+            MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+
+
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .get("mealplanner/generate");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
-
-
-//    @Step
-//    @Test
-//    @DisplayName("Проверка, что генерация на другой промежуток не допустим!")
-//    @Description("В тестовой документации написано, что поддерживается генерация только для WEEK \ DAY")
-//    public void t3_4_checkUnsuccessfulGeneration() {
-//        try {
-//
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
 
 
 
