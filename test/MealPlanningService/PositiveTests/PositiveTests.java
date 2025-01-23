@@ -1,6 +1,7 @@
 package MealPlanningService.PositiveTests;
 
 import MealPlanningService.PositiveTests.Pojo.Requests.t3_1_getMealPlanWeekAfterFillAllParameters;
+import MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration;
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
 import MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Week;
 import ReceiptService.MealPlanningBaseSettings;
@@ -199,14 +200,17 @@ public class PositiveTests {
     @Step
     @Test
     @DisplayName("Проверка, что при попытке сгенерировать на больше чем неделю - генерируется максимально допустимая - на неделю!")
+    @Description("Не должна выводиться ошибка, должно предоставляться меню на неделю")
     public void t3_4_checkLimitPeriodGeneration() {
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-
-
+            MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration body = new t3_4_checkLimitPeriodGeneration("year","2000","meat",null);
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
+                    .param(String.valueOf(body))
                     .get("mealplanner/generate");
+            response.then().statusCode(200);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
