@@ -1,50 +1,21 @@
 package MealPlanningService.PositiveTests.Pojo.Requests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class t3_4_checkLimitPeriodGeneration {
-    private String timeFrame;
-    private String targetCalories;
-    private String diet;
-    private String exclude;
+    private static final String TIME_FRAME = "year";
+    private static final String TARGET_CALORIES = "2000";
+    private static final String DIET = "vegetarian";
+    private static final String EXCLUDE = null;
 
-    public String getTimeFrame() {
-        return timeFrame;
-    }
 
-    public void setTimeFrame(String timeFrame) {
-        this.timeFrame = timeFrame;
-    }
-
-    public String getTargetCalories() {
-        return targetCalories;
-    }
-
-    public void setTargetCalories(String targetCalories) {
-        this.targetCalories = targetCalories;
-    }
-
-    public String getDiet() {
-        return diet;
-    }
-
-    public void setDiet(String diet) {
-        this.diet = diet;
-    }
-
-    public String getExclude() {
-        return exclude;
-    }
-
-    public void setExclude(String exclude) {
-        this.exclude = exclude;
-    }
-
-    public t3_4_checkLimitPeriodGeneration() {
-    }
-
-    public t3_4_checkLimitPeriodGeneration(String timeFrame, String targetCalories, String diet, String exclude) {
-        this.timeFrame = timeFrame;
-        this.targetCalories = targetCalories;
-        this.diet = diet;
-        this.exclude = exclude;
+    public Map<String,Object> getParameters() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("timeFrame",TIME_FRAME);
+        params.put("targetCalories",TARGET_CALORIES);
+        params.put("diet",DIET);
+        params.put("exclude",EXCLUDE);
+        return params;
     }
 }

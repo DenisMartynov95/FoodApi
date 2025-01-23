@@ -206,10 +206,12 @@ public class PositiveTests {
     public void t3_4_checkLimitPeriodGeneration() {
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-            MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration reqBody = new t3_4_checkLimitPeriodGeneration("year","2000","meat",null);
+            MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration reqBody = new t3_4_checkLimitPeriodGeneration();
+
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
-                    .param(String.valueOf(reqBody))
+                    .params(reqBody.getParameters())
+                    .log().all()
                     .get("mealplanner/generate");
             response.then().statusCode(200);
 
@@ -228,7 +230,7 @@ public class PositiveTests {
             }
             Assert.assertEquals("Должно прийти лишь 3 блюда!",expected,actual);
             System.out.println(body.getMeals().toString());
-            System.out.println("Тест кейс №3.4 прошел успешно, пришло: " + actual + " блюд");
+            System.out.println("Тест кейс №3.4 прошел успешно, пришло: " + actual + " блюда");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
