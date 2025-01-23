@@ -199,17 +199,19 @@ public class PositiveTests {
 
     @Step
     @Test
-    @DisplayName("Проверка, что при попытке сгенерировать на больше чем неделю - генерируется максимально допустимая - на неделю!")
-    @Description("Не должна выводиться ошибка, должно предоставляться меню на неделю")
+    @DisplayName("Проверка, что при попытке сгенерировать на больше чем неделю - генерируется лишь на день")
+    @Description("Не должна выводиться ошибка, должно предоставляться меню на день и только 3 блюда!")
     public void t3_4_checkLimitPeriodGeneration() {
         try {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
-            MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration body = new t3_4_checkLimitPeriodGeneration("year","2000","meat",null);
+            MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration reqBody = new t3_4_checkLimitPeriodGeneration("year","2000","meat",null);
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
-                    .param(String.valueOf(body))
+                    .param(String.valueOf(reqBody))
                     .get("mealplanner/generate");
             response.then().statusCode(200);
+
+            MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Root body = response.body().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Root.class);
 
 
         } catch (Exception e) {
