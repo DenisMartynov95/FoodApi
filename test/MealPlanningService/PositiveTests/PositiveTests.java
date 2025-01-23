@@ -4,6 +4,7 @@ import MealPlanningService.PositiveTests.Pojo.Requests.t3_1_getMealPlanWeekAfter
 import MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration;
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
 import MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Week;
+import MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Meal;
 import ReceiptService.MealPlanningBaseSettings;
 import MealPlanningService.PositiveTests.Pojo.Requests.t2_1_checkSuccessRegistration;
 import io.qameta.allure.Description;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import static MealPlanningService.PositiveTests.ImportantData.SavedData.*;
@@ -212,7 +214,21 @@ public class PositiveTests {
             response.then().statusCode(200);
 
             MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Root body = response.body().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Root.class);
-
+            Assert.assertNotNull(body);
+            // Далее более углубленная проверка, ведь в класс Meals приходит массив с 3 блюдами
+            // И нужно чекнуть, что блюда именно 3, а не больше и не меньше
+            int expected = 3;
+            int actual = 0;
+            for (Meal meals : body.getMeals()) {
+                if (meals.getId() > 0) {
+                    actual++;
+                } else {
+                    System.out.println("Пришло: " + actual);
+                }
+            }
+            Assert.assertEquals("Должно прийти лишь 3 блюда!",expected,actual);
+            System.out.println(body.getMeals().toString());
+            System.out.println("Тест кейс №3.4 прошел успешно, пришло: " + actual + " блюд");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

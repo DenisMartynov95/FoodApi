@@ -1,6 +1,6 @@
 package MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration;
 
-public class Meal{
+public class Meal {
     private int id;
     private String imageType;
     private String title;
@@ -8,37 +8,12 @@ public class Meal{
     private int servings;
     private String sourceUrl;
 
-
-    public String getSourceUrl() {
-        return sourceUrl;
+    public int getId() {
+        return id;
     }
 
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
-    }
-
-    public int getServings() {
-        return servings;
-    }
-
-    public void setServings(int servings) {
-        this.servings = servings;
-    }
-
-    public int getReadyInMinutes() {
-        return readyInMinutes;
-    }
-
-    public void setReadyInMinutes(int readyInMinutes) {
-        this.readyInMinutes = readyInMinutes;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getImageType() {
@@ -49,12 +24,36 @@ public class Meal{
         this.imageType = imageType;
     }
 
-    public int getId() {
-        return id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getReadyInMinutes() {
+        return readyInMinutes;
+    }
+
+    public void setReadyInMinutes(int readyInMinutes) {
+        this.readyInMinutes = readyInMinutes;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
     public Meal(int id, String imageType, String title, int readyInMinutes, int servings, String sourceUrl) {

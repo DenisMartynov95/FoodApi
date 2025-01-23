@@ -1,20 +1,33 @@
 package MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration;
 
-public class Root{
-    private Week week;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+public class Root {
 
-    public Week getWeek() {
-        return week;
+    private ArrayList<Meal> meals;
+    private Nutrients nutrients;
+
+    public ArrayList<Meal> getMeals() {
+        return meals;
     }
 
-    public void setWeek(Week week) {
-        this.week = week;
+    public void setMeals(ArrayList<Meal> meals) {
+        this.meals = meals;
     }
 
+    public Nutrients getNutrients() {
+        return nutrients;
+    }
 
-    public Root(Week week) {
-        this.week = week;
+    public void setNutrients(Nutrients nutrients) {
+        this.nutrients = nutrients;
+    }
+
+    public Root(ArrayList<Meal> meals, Nutrients nutrients) {
+        this.meals = meals;
+        this.nutrients = nutrients;
     }
 
     public Root() {
@@ -23,7 +36,11 @@ public class Root{
     @Override
     public String toString() {
         return "Root{" +
-                "week=" + week +
+                "meals=" + meals +
+                ", nutrients=" + nutrients +
                 '}';
     }
+
+
+
 }

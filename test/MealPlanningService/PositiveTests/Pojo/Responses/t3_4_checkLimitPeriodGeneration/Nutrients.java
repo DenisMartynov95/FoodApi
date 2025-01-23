@@ -1,6 +1,6 @@
 package MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration;
 
-public class Nutrients{
+public class Nutrients {
     private double calories;
     private double protein;
     private double fat;
@@ -14,12 +14,12 @@ public class Nutrients{
         this.calories = calories;
     }
 
-    public double getCarbohydrates() {
-        return carbohydrates;
+    public double getProtein() {
+        return protein;
     }
 
-    public void setCarbohydrates(double carbohydrates) {
-        this.carbohydrates = carbohydrates;
+    public void setProtein(double protein) {
+        this.protein = protein;
     }
 
     public double getFat() {
@@ -30,12 +30,12 @@ public class Nutrients{
         this.fat = fat;
     }
 
-    public double getProtein() {
-        return protein;
+    public double getCarbohydrates() {
+        return carbohydrates;
     }
 
-    public void setProtein(double protein) {
-        this.protein = protein;
+    public void setCarbohydrates(double carbohydrates) {
+        this.carbohydrates = carbohydrates;
     }
 
     public Nutrients(double calories, double protein, double fat, double carbohydrates) {
