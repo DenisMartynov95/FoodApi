@@ -118,6 +118,8 @@ public class PositiveTests {
     // №3.3 - Проверка, что при всех параметрах выдается результат, ГЕНЕРАЦИЯ ДЛЯ НЕДЕЛИ
     // №3.4 - Проверка, что при попытке сгенерировать на больше чем неделю - генерируется лишь на день
     // №3.5 - Проверка работоспособности генерации меню на день
+
+
     @Step
     @DisplayName("Проверка генерации меню-плана на неделю")
     @Description("В параметрах запроса передаю самые базовые фильтры")
@@ -246,9 +248,27 @@ public class PositiveTests {
     public void t3_5_checkGenDayMeal() {
         MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
-        Response response = given()
-                .spec(mealPlanningBaseSettings.getSpec())
+        try {
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .queryParam("timeFrame", "day","targetCalories","2000")
+                    .get("mealplanner/generate");
+            response.then().statusCode(200);
 
+            // Проверяю что ответ не пуст
+            MealPlanningService.PositiveTests.Pojo.Responses.t3_5_checkGenDayMeal.Root body = response.body().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_5_checkGenDayMeal.Root.class);
+            Assert.assertNotNull(body);
+
+            // Проверяю, что тело не пустое, более углубленно, заглядывая глубже во вложенный в Root класс Meal, и в его поля getTitle
+            for (MealPlanningService.PositiveTests.Pojo.Responses.t3_5_checkGenDayMeal.Meal meal : body.getMeals()) {
+                Assert.assertNotNull("Поле Title не может быть пустым",meal.getTitle());
+                System.out.println(meal.getTitle());
+            }
+            System.out.println("Тест кейс №3.5 прошел успешно!");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
