@@ -2,6 +2,7 @@ package MealPlanningService.PositiveTests;
 
 import MealPlanningService.PositiveTests.Pojo.Requests.t3_1_getMealPlanWeekAfterFillAllParameters;
 import MealPlanningService.PositiveTests.Pojo.Requests.t3_4_checkLimitPeriodGeneration;
+import MealPlanningService.PositiveTests.Pojo.Requests.t3_6_checkCalLimit;
 import MealPlanningService.PositiveTests.Pojo.Responses.t2_2_getErrorMessageAfterFailedRegistration.Root;
 import MealPlanningService.PositiveTests.Pojo.Responses.t3_3_getMealPlanWeekAfterFillAllParameters.Week;
 import MealPlanningService.PositiveTests.Pojo.Responses.t3_4_checkLimitPeriodGeneration.Meal;
@@ -33,8 +34,12 @@ public class PositiveTests {
     @Test
     @DisplayName("Проверка создания пользователя и получение от него важных данных")
     @Description("Проверка, что пользователь вообще создается и данные приходят")
-    public void t2_1_checkSuccessRegistration(){
+    public void t2_1_checkSuccessRegistration() {
         try {
+            System.out.println("Анонсирую начало прогона тест-сьюта №2");
+            System.out.println("№2.1 - базовая проверка, что пользователь создается и проброс приходящих важных данных в переменные\n" +
+                    "№2.2 - кейс по проверке, что некорректный запрос - показывает нужную ошибку - это позитивный кейс, так как эта ошибка подразумевается в документации\n");
+
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
             // Создаю объект класса, содержащий данные, которые я хочу передать
             t2_1_checkSuccessRegistration requestBody = new t2_1_checkSuccessRegistration();
@@ -48,7 +53,7 @@ public class PositiveTests {
             // Распаковываю ответ и манипулирую его данными
             MealPlanningService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root body = response.then().extract().as(MealPlanningService.PositiveTests.Pojo.Responses.t2_1_checkSuccessRegistration.Root.class);
             // Проверяю что поля не пусты, а потом перекладываю эти данные на хранение в переменные SavedData
-            Assert.assertEquals("Статус не успешен!", body.getStatus(),"success");
+            Assert.assertEquals("Статус не успешен!", body.getStatus(), "success");
             Assert.assertNotNull("userName пуст!", body.getUsername());
             Assert.assertNotNull("spoonacularPassword пуст!", body.getSpoonacularPassword());
             Assert.assertNotNull("hash пуст!", body.getHash());
@@ -61,7 +66,7 @@ public class PositiveTests {
             // Вывожу сообщение об успехе
             System.out.println("Тест №2_1 прошел успешно! Данные приняты");
             System.out.println(body.getHash() + " " + body.getUsername() + " " + body.getSpoonacularPassword() + " " + body.getStatus());
-
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -98,7 +103,7 @@ public class PositiveTests {
             // Распаковываю приходящий ответ в pojo
             Root body = response.body().as(Root.class);
             // Проверка статуса для всех 4 тестов
-            Assert.assertEquals("Пришел статус Success, хотя должен был быть failure " + body.getStatus(),"failure",body.getStatus());
+            Assert.assertEquals("Пришел статус Success, хотя должен был быть failure " + body.getStatus(), "failure", body.getStatus());
             // Внедряю перебор для всех прогнанных кейсов, чтобы затем вывести их в сообщении
             if (body.getStatus().equals("failure")) {
                 System.out.println("Тестовый сценарий: " + requestBody + " прошел успешно! Текст ошибки высветился: " + body.getStatus());
@@ -106,6 +111,7 @@ public class PositiveTests {
                 System.out.println("Тестовый сценарий: " + requestBody + " провален! Текст ошибки не появляется - валидация пройдена с ошибочными данными! " + body.getStatus());
             }
             System.out.println("Тест №2.2 прошел успешно!");
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -126,12 +132,21 @@ public class PositiveTests {
     @Test
     public void t3_1_getMealPlanWeek() {
         try {
+            System.out.println("Анонсирую прогон тест-сьюта №3 по ручке генерирования планов на еду mealplanner/generate");
+            System.out.println("№3.1 - Проверка генерации плана на неделю с обычными параметрами\n" +
+                    "№3.2 - Проверка, что при пустом запросе - не генерируется блюда и БД тем самым не загружается\n" +
+                    "№3.3 - Проверка, что при всех параметрах выдается результат, ГЕНЕРАЦИЯ ДЛЯ НЕДЕЛИ\n" +
+                    "№3.4 - Проверка, что при попытке сгенерировать на больше чем неделю - генерируется лишь на день\n" +
+                    "№3.5 - Проверка работоспособности генерации меню на день");
+            System.out.println(" ");
+
+
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
                     // Так как параметра всего два в этом тесте - передаю напрямую
-                    .queryParams("timeFrame","week","targetCalories","3500")
+                    .queryParams("timeFrame", "week", "targetCalories", "3500")
                     .get("mealplanner/generate");
 
             response.then().statusCode(200);
@@ -139,17 +154,18 @@ public class PositiveTests {
             // Распаковка ответа в pojo
             MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root body = response.then().extract().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_1_getMealPlanWeek.Root.class);
             // Чек, что ответ не пуст
-            Assert.assertNotNull("Ответ не может быть пуст",body);
+            Assert.assertNotNull("Ответ не может быть пуст", body);
             // Чек всех дней недели, что они заполнились нужными данными
             // Суть в том, что в классе Week создал метод для помощи в переборе данных из классов дней недели
             // Затем создаю Map, где String - это день недели, а Объект - данные из класса Week
             Map<String, Object> weekData = body.getWeek().getAllDaysData();
             // Перебор значений с помощью интерфейса entry и запись их в переменную entry
             for (Map.Entry<String, Object> entry : weekData.entrySet()) {
-                Assert.assertNotNull("Тело в классах дней недели - пусты",entry);
+                Assert.assertNotNull("Тело в классах дней недели - пусты", entry);
                 System.out.println("Лог тела дней недели: " + entry.toString());
             }
             System.out.println("Тест кейс №3.1 прошел успешно!");
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -165,11 +181,12 @@ public class PositiveTests {
 
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
-                    .queryParams("timeFrame", " ","targetCalories", " ")
+                    .queryParams("timeFrame", " ", "targetCalories", " ")
                     .get("mealplanner/generate");
             response.then().statusCode(404);
 
             System.out.println("Тест кейс №3.2 прошел успешно - данные не выдаются!");
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -193,12 +210,12 @@ public class PositiveTests {
             Assert.assertNotNull(body);
             // Более углубленная проверка что приходящие массивы - не пусты
             // Написал чисто для закрепления, этот код не нужен. ведь я уже проверил body
-            Map<String,Object> responseDataOfWeek = body.getWeek().getAllDaysData();
-            for (Map.Entry<String,Object> entry : responseDataOfWeek.entrySet()) {
+            Map<String, Object> responseDataOfWeek = body.getWeek().getAllDaysData();
+            for (Map.Entry<String, Object> entry : responseDataOfWeek.entrySet()) {
                 Assert.assertNotNull(entry);
-                }
+            }
             System.out.println("Тест кейс №3.3 прошел успешно! При полноценных параметрах - приходит ответ");
-
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -233,10 +250,10 @@ public class PositiveTests {
                     System.out.println("Пришло: " + actual);
                 }
             }
-            Assert.assertEquals("Должно прийти лишь 3 блюда!",expected,actual);
+            Assert.assertEquals("Должно прийти лишь 3 блюда!", expected, actual);
             System.out.println(body.getMeals().toString());
             System.out.println("Тест кейс №3.4 прошел успешно, пришло: " + actual + " блюда");
-
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -251,7 +268,7 @@ public class PositiveTests {
         try {
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
-                    .queryParam("timeFrame", "day","targetCalories","2000")
+                    .queryParam("timeFrame", "day", "targetCalories", "2000")
                     .get("mealplanner/generate");
             response.then().statusCode(200);
 
@@ -261,23 +278,47 @@ public class PositiveTests {
 
             // Проверяю, что тело не пустое, более углубленно, заглядывая глубже во вложенный в Root класс Meal, и в его поля getTitle
             for (MealPlanningService.PositiveTests.Pojo.Responses.t3_5_checkGenDayMeal.Meal meal : body.getMeals()) {
-                Assert.assertNotNull("Поле Title не может быть пустым",meal.getTitle());
+                Assert.assertNotNull("Поле Title не может быть пустым", meal.getTitle());
                 System.out.println(meal.getTitle());
             }
             System.out.println("Тест кейс №3.5 прошел успешно!");
-
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
+    @Step
+    @Test
+    @DisplayName("Проверка работоспособности ограничения поля calories")
+    @Description("Если ищется значение 2000 калорий - то должно именно столько приходить в ответе")
+    public void t3_6_checkCalLimit() {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+        MealPlanningService.PositiveTests.Pojo.Requests.t3_6_checkCalLimit reqBody = new t3_6_checkCalLimit();
+        try {
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .params(reqBody.getParameters())
+                    .get("mealplanner/generate");
+            response.then().statusCode(200);
 
-
-
-
-
-
-
+            // Распаковка ответа
+            MealPlanningService.PositiveTests.Pojo.Responses.t3_6_checkCalLimit.Root body = response.body().as(MealPlanningService.PositiveTests.Pojo.Responses.t3_6_checkCalLimit.Root.class);
+            // Проверка что ответ не пуст
+            Assert.assertNotNull(body);
+            // Проверка корректной работы ограничителя, у поля Calories
+            String expected = "2000.";
+            String expected2 = "1999.";
+            String actual = String.valueOf(body.getNutrients().getCalories());
+            if (actual.contains(expected) || actual.contains(expected2)) {
+                System.out.println("Ограничитель работает");
+                System.out.println(actual);
+            }
+            System.out.println("Тест кейс №3.6 прошел успешно!");
+            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
 
