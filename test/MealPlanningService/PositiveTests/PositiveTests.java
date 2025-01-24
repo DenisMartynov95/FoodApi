@@ -66,7 +66,7 @@ public class PositiveTests {
             // Вывожу сообщение об успехе
             System.out.println("Тест №2_1 прошел успешно! Данные приняты");
             System.out.println(body.getHash() + " " + body.getUsername() + " " + body.getSpoonacularPassword() + " " + body.getStatus());
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -111,7 +111,7 @@ public class PositiveTests {
                 System.out.println("Тестовый сценарий: " + requestBody + " провален! Текст ошибки не появляется - валидация пройдена с ошибочными данными! " + body.getStatus());
             }
             System.out.println("Тест №2.2 прошел успешно!");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -165,7 +165,7 @@ public class PositiveTests {
                 System.out.println("Лог тела дней недели: " + entry.toString());
             }
             System.out.println("Тест кейс №3.1 прошел успешно!");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -186,7 +186,7 @@ public class PositiveTests {
             response.then().statusCode(404);
 
             System.out.println("Тест кейс №3.2 прошел успешно - данные не выдаются!");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -215,7 +215,7 @@ public class PositiveTests {
                 Assert.assertNotNull(entry);
             }
             System.out.println("Тест кейс №3.3 прошел успешно! При полноценных параметрах - приходит ответ");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -253,7 +253,7 @@ public class PositiveTests {
             Assert.assertEquals("Должно прийти лишь 3 блюда!", expected, actual);
             System.out.println(body.getMeals().toString());
             System.out.println("Тест кейс №3.4 прошел успешно, пришло: " + actual + " блюда");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -282,7 +282,7 @@ public class PositiveTests {
                 System.out.println(meal.getTitle());
             }
             System.out.println("Тест кейс №3.5 прошел успешно!");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -315,7 +315,7 @@ public class PositiveTests {
                 System.out.println(actual);
             }
             System.out.println("Тест кейс №3.6 прошел успешно!");
-            System.out.println("===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===" + "===");
+            System.out.println("=========================================================================================================================================================");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
