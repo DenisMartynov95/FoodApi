@@ -114,6 +114,10 @@ public class PositiveTests {
 
     // Тест-сьют по ручке генерирования планов на еду mealplanner/generate
     // №3.1 - Проверка генерации плана на неделю с обычными параметрами
+    // №3.2 - Проверка, что при пустом запросе - не генерируется блюда и БД тем самым не загружается
+    // №3.3 - Проверка, что при всех параметрах выдается результат, ГЕНЕРАЦИЯ ДЛЯ НЕДЕЛИ
+    // №3.4 - Проверка, что при попытке сгенерировать на больше чем неделю - генерируется лишь на день
+    // №3.5 - Проверка работоспособности генерации меню на день
     @Step
     @DisplayName("Проверка генерации меню-плана на неделю")
     @Description("В параметрах запроса передаю самые базовые фильтры")
@@ -161,7 +165,6 @@ public class PositiveTests {
                     .spec(mealPlanningBaseSettings.getSpec())
                     .queryParams("timeFrame", " ","targetCalories", " ")
                     .get("mealplanner/generate");
-
             response.then().statusCode(404);
 
             System.out.println("Тест кейс №3.2 прошел успешно - данные не выдаются!");
@@ -236,6 +239,23 @@ public class PositiveTests {
             System.out.println(e.getMessage());
         }
     }
+
+    @Step
+    @Test
+    @DisplayName("Проверка работоспособности генерации меню на день")
+    public void t3_5_checkGenDayMeal() {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+
+        Response response = given()
+                .spec(mealPlanningBaseSettings.getSpec())
+
+
+    }
+
+
+
+
+
 
 
 
