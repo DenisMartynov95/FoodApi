@@ -37,10 +37,7 @@ public class NegativeTests {
     })
 
     public void t2n_1_letCrushRegistration(String username, String firstName, String lastName, String email) {
-        int numberFailure = 0; // Вынес переменную за границы try catch, так как необходима вконце всего теста
         try {
-            String success = "success";
-            String failure = "failure";
 
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
@@ -57,12 +54,15 @@ public class NegativeTests {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             } finally {
+                // Распаковка ответа
                 Root root = response.body().as(Root.class);
-
+                // Переменные для сравнения со статусами
+                String success = "success";
+                String failure = "failure";
                 if (root.getStatus().equals(success)) {
                     System.out.println("ВНИМАНИЕ!!!");
                     System.out.println("Данные: " + bodyReq + " были пропущены в базу данных");
-                    numberFailure++;
+
                 } else if (root.getStatus().equals(failure)) {
                     System.out.println("Корректно! Данные не прошли: " + bodyReq);
                 }
@@ -70,8 +70,6 @@ public class NegativeTests {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            System.out.println("В итоге, было неверно пропущено " + numberFailure + " тестовых вариантов");
         }
     }
 
