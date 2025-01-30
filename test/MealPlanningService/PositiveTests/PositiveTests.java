@@ -87,7 +87,7 @@ public class PositiveTests {
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
             // Генерируем RAW JSON
-            String requestBody = String.format( // Так как мне нужно передать просто # без СКОБОЧЕК - то я и убрал скобки из %s , если бы нужно было передать строку - то было бы "%s"
+            String requestBody = String.format( // Так как мне нужно передать просто # без СКОБОЧЕК - то я и убрал скобки из %s , если бы нужно было передать строку - то было бы \"%s"\
                     "{ \"username\": %s, \"firstName\": %s, \"lastName\": %s, \"email\": %s }",
                     username, firstName, lastName, email
             );
