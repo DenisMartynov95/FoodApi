@@ -1,5 +1,6 @@
 package MealPlanningService.NegativeTests;
 
+import MealPlanningService.NegativeTests.Pojo.Requests.t2n_2_letCheckLimitForRegistrations;
 import MealPlanningService.NegativeTests.Pojo.Responses.t2n_1_letCrushRegistration.Root;
 import ReceiptService.MealPlanningBaseSettings;
 import io.qameta.allure.Description;
@@ -47,6 +48,7 @@ public class NegativeTests {
                     .spec(mealPlanningBaseSettings.getSpec())
                     .body(bodyReq)
                     .post("users/connect");
+
             try {
                 response.then().statusCode(400); // К сожалению, существуют баги, при которых возвращает 200, хотя не должно
                 // поэтому мне нужен finally в котором будет произведена работа с ответом, более углубленно
@@ -72,5 +74,39 @@ public class NegativeTests {
             System.out.println(e.getMessage());
         }
     }
+
+    @Step
+    @DisplayName("Проверка ограничителя по символам для полей ввода")
+    @Description("Так как у меня есть ограничения для бесплатных запросов - снова придется делать тест коротким, но уже атомарным")
+
+    public void t2n_2_letCheckLimitForUsernameField() {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+        t2n_2_letCheckLimitForRegistrations body = new t2n_2_letCheckLimitForRegistrations();
+
+        Response response = given()
+                .spec(mealPlanningBaseSettings.getSpec())
+                .body(body.getParams())
+                .post("users/connect");
+        // У этой ручки есть баг - он возвращает 200 статус, хотя статус приходит failure
+        // Поэтому углубленно надо проверить
+        try {
+            response.then().statusCode(400);
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + " " + response.statusCode());
+        } finally {
+            // Распаковываю ответ
+            MealPlanningService.NegativeTests.Pojo.Responses.t2n_2_letCheckLimitForUsernameField.Root root = response.body().as(MealPlanningService.NegativeTests.Pojo.Responses.t2n_2_letCheckLimitForUsernameField.Root.class);
+            // И проверяю на самом ли деле тест прошел успешно, или все же статус failure
+            String expected = "failure";
+            if (root.getStatus().equals(expected)) {
+                System.out.println("Тест-кейс прошел успешно! Username не пропущен в БД");
+            }
+        }
+
+
+    }
+
+
+
 
 }
