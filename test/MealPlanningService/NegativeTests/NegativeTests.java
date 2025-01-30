@@ -76,9 +76,9 @@ public class NegativeTests {
     }
 
     @Step
-    @DisplayName("Проверка ограничителя по символам для полей ввода")
+    @Test
+    @DisplayName("Проверка ограничителя по символам для поля ввода username")
     @Description("Так как у меня есть ограничения для бесплатных запросов - снова придется делать тест коротким, но уже атомарным")
-
     public void t2n_2_letCheckLimitForUsernameField() {
         MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
         t2n_2_letCheckLimitForRegistrations body = new t2n_2_letCheckLimitForRegistrations();
