@@ -118,6 +118,8 @@ public class PositiveTests {
     }
 
 
+
+
     // Тест-сьют по ручке генерирования планов на еду mealplanner/generate
     // №3.1 - Проверка генерации плана на неделю с обычными параметрами
     // №3.2 - Проверка, что при пустом запросе - не генерируется блюда и БД тем самым не загружается
@@ -139,7 +141,6 @@ public class PositiveTests {
                     "№3.4 - Проверка, что при попытке сгенерировать на больше чем неделю - генерируется лишь на день\n" +
                     "№3.5 - Проверка работоспособности генерации меню на день");
             System.out.println(" ");
-
 
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
