@@ -7,6 +7,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -90,7 +91,9 @@ public class NegativeTests {
         // У этой ручки есть баг - он возвращает 200 статус, хотя статус приходит failure
         // Поэтому углубленно надо проверить
         try {
-            response.then().statusCode(400);
+            int statusCode = response.statusCode();
+            int expectedSC = 400;
+            Assert.assertEquals("Статус код должен быть 400!",expectedSC,statusCode);
         } catch (Exception e) {
             System.out.println(e.getMessage() + " " + response.statusCode());
         } finally {
