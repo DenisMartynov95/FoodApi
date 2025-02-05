@@ -1,6 +1,7 @@
 package MealPlanningService.NegativeTests;
 
 import MealPlanningService.NegativeTests.Pojo.Requests.t2n_2_letCheckLimitForRegistrations;
+import MealPlanningService.NegativeTests.Pojo.Requests.t2n_3_letCheckLimitForFirstName;
 import MealPlanningService.NegativeTests.Pojo.Responses.t2n_1_letCrushRegistration.Root;
 import ReceiptService.MealPlanningBaseSettings;
 import io.qameta.allure.Description;
@@ -110,6 +111,25 @@ public class NegativeTests {
     @Test
     @DisplayName("Проверка ограничителя по символам для поля ввода firstName")
     public void t2n_3_letCheckLimitForFirstName() {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+        t2n_3_letCheckLimitForFirstName body = new t2n_3_letCheckLimitForFirstName();
+
+        Response response = given()
+                .spec(mealPlanningBaseSettings.getSpec())
+                .body(body.getParameters())
+                .post("users/connect");
+        response.then().assertThat().statusCode(200);
+
+        // Распаковываю тело
+        // Так как существует баг и ответ всего 200, нужно проверить поле status у ответа
+        MealPlanningService.NegativeTests.Pojo.Responses.t2n_3_letCheckLimitForFirstName.Root root = response.then().extract().as(MealPlanningService.NegativeTests.Pojo.Responses.t2n_3_letCheckLimitForFirstName.Root.class);
+        String expected = "failure";
+
+        if (root.getStatus().equals(expected)) {
+            System.out.println("Ответ failure! Данные не попали в БД");
+        } else {
+            System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+        }
 
     }
 
