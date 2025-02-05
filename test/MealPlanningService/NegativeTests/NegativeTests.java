@@ -79,7 +79,6 @@ public class NegativeTests {
     @Step
     @Test
     @DisplayName("Проверка ограничителя по символам для поля ввода username")
-    @Description("Так как у меня есть ограничения для бесплатных запросов - снова придется делать тест коротким, но уже атомарным")
     public void t2n_2_letCheckLimitForUsernameField() {
         MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
         t2n_2_letCheckLimitForRegistrations body = new t2n_2_letCheckLimitForRegistrations();
@@ -105,9 +104,15 @@ public class NegativeTests {
                 System.out.println("Тест-кейс прошел успешно! Username не пропущен в БД");
             }
         }
+    }
 
+    @Step
+    @Test
+    @DisplayName("Проверка ограничителя по символам для поля ввода firstName")
+    public void t2n_3_letCheckLimitForFirstName() {
 
     }
+
 
 
 
