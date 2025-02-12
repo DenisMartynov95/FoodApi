@@ -11,12 +11,15 @@ import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.runners.MethodSorters;
 
 import static io.restassured.RestAssured.given;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NegativeTests {
 
     // Тест-сьют по ручке поиска рецептов users/connect
@@ -29,7 +32,7 @@ public class NegativeTests {
     @Step
     @Test
     @DisplayName("Анонс начала прогона тестового сьюта №2")
-    public void t2n_annotation() {
+    public void annotation() {
         System.out.println("Анонсирую начало прогона негативного тест-сьюта №2 состоящий из следующих сценариев: ");
         System.out.println("№2.1 - Проверка тестовых наборов данных\n" + "№2.2 - Проверка ограничителя по символам для поля ввода username\n" + "№2.3 - Проверка ограничителя по символам для поля ввода firstName\n" +
                 "№2.4 - Проверка ограничителя по символам для поля ввода lastName\n" + "№2.5 - Проверка ограничителя по символам для поля ввода email\n");
@@ -87,12 +90,13 @@ public class NegativeTests {
                 } else if (root.getStatus().equals(failure)) {
                     System.out.println("Корректно! Данные не прошли: " + bodyReq);
                 }
-                System.out.println("Тест №2.1 завершен!");
-                System.out.println("=========================================================================================================================================================");
             }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Тест №2.1 завершен!");
+            System.out.println("=========================================================================================================================================================");
         }
     }
 
