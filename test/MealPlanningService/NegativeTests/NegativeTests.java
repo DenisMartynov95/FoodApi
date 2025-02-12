@@ -3,6 +3,7 @@ package MealPlanningService.NegativeTests;
 import MealPlanningService.NegativeTests.Pojo.Requests.t2n_2_letCheckLimitForRegistrations;
 import MealPlanningService.NegativeTests.Pojo.Requests.t2n_3_letCheckLimitForFirstName;
 import MealPlanningService.NegativeTests.Pojo.Requests.t2n_4_letCheckLimitForLastName;
+import MealPlanningService.NegativeTests.Pojo.Requests.t2n_5_letCheckLimitForEmail;
 import MealPlanningService.NegativeTests.Pojo.Responses.t2n_1_letCrushRegistration.Root;
 import ReceiptService.MealPlanningBaseSettings;
 import io.qameta.allure.Description;
@@ -164,6 +165,23 @@ public class NegativeTests {
     @Step
     @Test
     @DisplayName("Проверка ограничителя по символам для поля ввода email")
+    public void t2n_5_letCheckLimitForEmail() {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+        t2n_5_letCheckLimitForEmail body = new t2n_5_letCheckLimitForEmail();
+
+        Response response = given()
+                .spec(mealPlanningBaseSettings.getSpec())
+                .body(body.getParameters())
+                .post("users/connect");
+        response.then().assertThat().statusCode(200);
+
+        // Распаковываю тело
+        // Так как существует баг и ответ всего 200, нужно проверить поле status у ответа
+        MealPlanningService.NegativeTests.Pojo.Responses.t2n_5_letCheckLimitForEmail.Root root = response.then().extract().as(t2n_5_letCheckLimitForEmail.class);
+
+
+    }
+
 
 
 
