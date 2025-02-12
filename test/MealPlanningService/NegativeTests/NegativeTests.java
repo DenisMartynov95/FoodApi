@@ -13,7 +13,6 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static io.restassured.RestAssured.given;
@@ -21,7 +20,21 @@ import static io.restassured.RestAssured.given;
 public class NegativeTests {
 
     // Тест-сьют по ручке поиска рецептов users/connect
-    // №2.1 - проверка тестовых наборов данных (весьма ограниченных)
+    // №2.1 - Проверка тестовых наборов данных (весьма ограниченных)
+    // №2.2 - Проверка ограничителя по символам для поля ввода username
+    // №2.3 - Проверка ограничителя по символам для поля ввода firstName
+    // №2.4 - Проверка ограничителя по символам для поля ввода lastName
+    // №2.5 - Проверка ограничителя по символам для поля ввода email
+
+    @Step
+    @Test
+    @DisplayName("Анонс начала прогона тестового сьюта №2")
+    public void t2n_annotation() {
+        System.out.println("Анонсирую начало прогона негативного тест-сьюта №2 состоящий из следующих сценариев: ");
+        System.out.println("№2.1 - Проверка тестовых наборов данных\n" + "№2.2 - Проверка ограничителя по символам для поля ввода username\n" + "№2.3 - Проверка ограничителя по символам для поля ввода firstName\n" +
+                "№2.4 - Проверка ограничителя по символам для поля ввода lastName\n" + "№2.5 - Проверка ограничителя по символам для поля ввода email\n");
+        System.out.println(" ");
+    }
 
     @Step
     @DisplayName("Комплексный тест вводимых данных для регистрации")
@@ -46,7 +59,6 @@ public class NegativeTests {
 
     public void t2n_1_letCrushRegistration(String username, String firstName, String lastName, String email) {
         try {
-
             MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
 
             String bodyReq = String.format("{ \"username\": \"%s\", \"firstName\": \"%s\", \"lastName\": \"%s\", \"email\": \"%s\" }", username, firstName, lastName, email);
@@ -69,12 +81,14 @@ public class NegativeTests {
                 String success = "success";
                 String failure = "failure";
                 if (root.getStatus().equals(success)) {
-                    System.out.println("ВНИМАНИЕ!!!");
+                    System.out.println("ВНИМАНИЕ ОБНАРУЖЕН БАГ!!!");
                     System.out.println("Данные: " + bodyReq + " были пропущены в базу данных");
 
                 } else if (root.getStatus().equals(failure)) {
                     System.out.println("Корректно! Данные не прошли: " + bodyReq);
                 }
+                System.out.println("Тест №2.1 завершен!");
+                System.out.println("=========================================================================================================================================================");
             }
 
         } catch (Exception e) {
@@ -107,7 +121,12 @@ public class NegativeTests {
             // И проверяю на самом ли деле тест прошел успешно, или все же статус failure
             String expected = "failure";
             if (root.getStatus().equals(expected)) {
-                System.out.println("Тест-кейс прошел успешно! Username не пропущен в БД");
+                System.out.println("Тест №2.2  прошел успешно! Username не пропущен в БД");
+                System.out.println("=========================================================================================================================================================");
+            } else {
+                System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+                System.out.println("Тест №2.2 ПРОВАЛИЛСЯ");
+
             }
         }
     }
@@ -132,8 +151,12 @@ public class NegativeTests {
 
         if (root.getStatus().equals(expected)) {
             System.out.println("Ответ failure! Данные не попали в БД");
+            System.out.println("Тест №2.3 прошел успешно!");
+            System.out.println("=========================================================================================================================================================");
+
         } else {
             System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+            System.out.println("Тест №2.3 ПРОВАЛИЛСЯ");
         }
     }
 
@@ -157,8 +180,12 @@ public class NegativeTests {
 
         if (root.getStatus().equals(expected)) {
             System.out.println("Ответ failure! Данные не попали в БД");
+            System.out.println("Тест №2.4 прошел успешно!");
+            System.out.println("=========================================================================================================================================================");
+
         } else {
             System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+            System.out.println("Тест №2.4 ПРОВАЛИЛСЯ");
         }
     }
 
@@ -182,8 +209,12 @@ public class NegativeTests {
 
         if (root.getStatus().equals(expected)) {
             System.out.println("Ответ failure! Данные не попали в БД");
+            System.out.println("Тест №2.5 прошел успешно!");
+            System.out.println("=========================================================================================================================================================");
+
         } else {
             System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+            System.out.println("Тест №2.5 ПРОВАЛИЛСЯ");
         }
     }
 
