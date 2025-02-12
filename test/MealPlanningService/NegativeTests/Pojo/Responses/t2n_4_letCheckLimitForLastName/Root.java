@@ -1,4 +1,4 @@
-package MealPlanningService.NegativeTests.Pojo.Responses.t2n_4_letCheckLimitForTwoFields;
+package MealPlanningService.NegativeTests.Pojo.Responses.t2n_4_letCheckLimitForLastName;
 
 public class Root {
     private String status;
