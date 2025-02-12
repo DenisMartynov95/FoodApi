@@ -177,9 +177,14 @@ public class NegativeTests {
 
         // Распаковываю тело
         // Так как существует баг и ответ всего 200, нужно проверить поле status у ответа
-        MealPlanningService.NegativeTests.Pojo.Responses.t2n_5_letCheckLimitForEmail.Root root = response.then().extract().as(t2n_5_letCheckLimitForEmail.class);
+        MealPlanningService.NegativeTests.Pojo.Responses.t2n_5_letCheckLimitForEmail.Root root = response.then().extract().as(MealPlanningService.NegativeTests.Pojo.Responses.t2n_5_letCheckLimitForEmail.Root.class);
+        String expected = "failure";
 
-
+        if (root.getStatus().equals(expected)) {
+            System.out.println("Ответ failure! Данные не попали в БД");
+        } else {
+            System.out.println("ВНИМАНИЕ!!! Данные попали в БД, они не валидны!");
+        }
     }
 
 
