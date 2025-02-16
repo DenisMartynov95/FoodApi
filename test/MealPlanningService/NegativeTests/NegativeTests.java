@@ -235,16 +235,17 @@ public class NegativeTests {
     @Step
     @Test
     @DisplayName("Параметризированный запрос с попыткой выявить возможность отправить запрос с некорректными параметрами")
+    @Description("Не могу привести тест со всеми возможными вариантами, из-за ограничений на количество бесплатных запросов")
     @CsvSource({
             "year, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "83274, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "&^#$, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "день, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
-            "SELECT * from Menu Limit 10, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "SELECT * from Menu Limit 10;, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "day, 92139198123, Gluten Free, shellfish", // Ломаю 2 параметр
             "day, , Gluten Free, shellfish", // Ломаю 2 параметр
             "day, sadasgre, Gluten Free, shellfish", // Ломаю 2 параметр
-            "day, , SELECT * FROM menu WHERE targetCalories > 1500 LIMIT 10, shellfish", // Ломаю 2 параметр
+            "day, , SELECT * FROM menu WHERE targetCalories > 1500 LIMIT 10;, shellfish", // Ломаю 2 параметр
             "day,&$#^,Gluten Free, shellfish", // Ломаю 2 параметр
             "day,1500,Gluten , shellfish", // Ломаю 3 параметр
             "day,1500, , shellfish", // Ломаю 3 параметр
@@ -252,7 +253,11 @@ public class NegativeTests {
             "day,1500,Свободные глютены, shellfish", // Ломаю 3 параметр
             "day,1500,3424234, shellfish", // Ломаю 3 параметр
             "day,1500,.%№,№, shellfish", // Ломаю 3 параметр
-            "year, 1500, Gluten Free, shellfish", // Чекаю 4 параметр невалидными запросами
+            "year, 1500, Gluten Free, Shellfish", // Чекаю 4 параметр невалидными запросами
+            "year, 1500, Gluten Free, ", // Чекаю 4 параметр невалидными запросами
+            "year, 1500, Gluten Free, isaklewjr", // Чекаю 4 параметр невалидными запросами
+            "year, 1500, Gluten Free, $@*&@#", // Чекаю 4 параметр невалидными запросами
+            "year, 1500, Gluten Free, SELECT * FROM menu WHERE exclude = 'shellfish';", // Чекаю 4 параметр невалидными запросами
 
 
     })
@@ -260,6 +265,20 @@ public class NegativeTests {
     public void t3n_getMealPlanning(String timeFrame, String targetCalories, String diet, String exclude) {
         MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
         String bodyReq = String.format("{ \"timeFrame\": \"%s\", \"targetCalories\": \"%s\", \"diet\": \"%s\", \"exclude\": \"%s\" }", timeFrame, targetCalories, diet, exclude);
+
+        try {
+            Response response = given()
+                    .spec(mealPlanningBaseSettings.getSpec())
+                    .body(bodyReq)
+                    .get("mealplanner/generate");
+            response.then().statusCode(400);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+        }
+
+
 
 
     }
