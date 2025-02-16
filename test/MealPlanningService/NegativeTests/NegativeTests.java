@@ -222,6 +222,21 @@ public class NegativeTests {
         }
     }
 
+    // НЕГАТИВНЫЙ Тест-сьют по ручке генерирования планов на еду mealplanner/generate
+    //
+    @Step
+    @Test
+    public void annotation2() {
+        System.out.println("Анонсирую начало прогона негативного тест-сьюта №3 состоящий из следующих сценариев: ");
+        System.out.println("");
+        System.out.println(" ");
+    }
+
+    @Step
+    @Test
+    @DisplayName("Параметризированный запрос с попыткой выявить возможность отправить запрос с некорректными параметрами")
+    public void
+
 
 
 
