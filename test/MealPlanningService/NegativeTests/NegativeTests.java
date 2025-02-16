@@ -242,11 +242,18 @@ public class NegativeTests {
             "день, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "SELECT * from Menu Limit 10, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
             "day, 92139198123, Gluten Free, shellfish", // Ломаю 2 параметр
-            "day",
-            "",
-            "",
-            "",
-            "",
+            "day, , Gluten Free, shellfish", // Ломаю 2 параметр
+            "day, sadasgre, Gluten Free, shellfish", // Ломаю 2 параметр
+            "day, , SELECT * FROM menu WHERE targetCalories > 1500 LIMIT 10, shellfish", // Ломаю 2 параметр
+            "day,&$#^,Gluten Free, shellfish", // Ломаю 2 параметр
+            "day,1500,Gluten , shellfish", // Ломаю 3 параметр
+            "day,1500, , shellfish", // Ломаю 3 параметр
+            "day,1500,gluten free, shellfish", // Ломаю 3 параметр
+            "day,1500,Свободные глютены, shellfish", // Ломаю 3 параметр
+            "day,1500,3424234, shellfish", // Ломаю 3 параметр
+            "day,1500,.%№,№, shellfish", // Ломаю 3 параметр
+            "year, 1500, Gluten Free, shellfish", // Чекаю 4 параметр невалидными запросами
+
 
     })
 
