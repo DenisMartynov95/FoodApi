@@ -235,7 +235,27 @@ public class NegativeTests {
     @Step
     @Test
     @DisplayName("Параметризированный запрос с попыткой выявить возможность отправить запрос с некорректными параметрами")
-    public void
+    @CsvSource({
+            "year, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "83274, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "&^#$, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "день, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "SELECT * from Menu Limit 10, 1500, Gluten Free, shellfish", // Чекаю 1 параметр невалидными запросами
+            "day, 92139198123, Gluten Free, shellfish", // Ломаю 2 параметр
+            "day",
+            "",
+            "",
+            "",
+            "",
+
+    })
+
+    public void t3n_getMealPlanning(String timeFrame, String targetCalories, String diet, String exclude) {
+        MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
+        String bodyReq = String.format("{ \"timeFrame\": \"%s\", \"targetCalories\": \"%s\", \"diet\": \"%s\", \"exclude\": \"%s\" }", timeFrame, targetCalories, diet, exclude);
+
+
+    }
 
 
 
