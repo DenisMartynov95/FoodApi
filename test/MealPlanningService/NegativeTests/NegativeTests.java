@@ -233,7 +233,6 @@ public class NegativeTests {
     }
 
     @Step
-    @Test
     @DisplayName("Параметризированный запрос с попыткой выявить возможность отправить запрос с некорректными параметрами")
     @Description("Не могу привести тест со всеми возможными вариантами, из-за ограничений на количество бесплатных запросов")
     @CsvSource({
@@ -261,12 +260,12 @@ public class NegativeTests {
 
 
     })
-
+    @Test
     public void t3n_getMealPlanning(String timeFrame, String targetCalories, String diet, String exclude) {
+        try {
         MealPlanningBaseSettings mealPlanningBaseSettings = new MealPlanningBaseSettings();
         String bodyReq = String.format("{ \"timeFrame\": \"%s\", \"targetCalories\": \"%s\", \"diet\": \"%s\", \"exclude\": \"%s\" }", timeFrame, targetCalories, diet, exclude);
 
-        try {
             Response response = given()
                     .spec(mealPlanningBaseSettings.getSpec())
                     .body(bodyReq)
@@ -274,8 +273,6 @@ public class NegativeTests {
             response.then().statusCode(400);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-
         }
 
 
